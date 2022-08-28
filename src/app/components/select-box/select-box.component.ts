@@ -12,7 +12,7 @@ import { Breed } from 'src/app/models/breed';
 import { ApiService } from './api.service';
 
 @Component({
-  selector: 'app-select-box',
+  selector: 'app-select-box[key]',
   templateUrl: './select-box.component.html',
   styleUrls: ['./select-box.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,6 +27,8 @@ export class SelectBoxComponent implements OnInit, OnDestroy {
 
   #takeUntil: Subject<void>;
 
+  arrayOfColors: ['#99DAFF', '#FBD960', '#b7faac'];
+
   constructor(
     private readonly apiService: ApiService,
     private readonly cdRef: ChangeDetectorRef
@@ -40,13 +42,15 @@ export class SelectBoxComponent implements OnInit, OnDestroy {
       throw new Error(`Unsupported key: ${this.key}`);
     }
 
+    if (!this.key) {
+      throw new Error('A key is required');
+    }
+
     this.apiService
       .fetchBreeds()
       .pipe(takeUntil(this.#takeUntil))
       .subscribe((breeds) => {
         this.breeds = breeds;
-
-        console.log('breeds', this.breeds);
 
         this.selected = this.breeds.length
           ? (this.selected = this.breeds[0])
@@ -69,5 +73,15 @@ export class SelectBoxComponent implements OnInit, OnDestroy {
     this.modified = true;
     this.selected = breed;
     this.open();
+  }
+
+  randomColor(): string {
+    let color = '#';
+    const letters = '0123456789ABCDEF';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+
+    return color;
   }
 }

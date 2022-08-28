@@ -2,11 +2,7 @@
   <div class="group">
     <span class="label">Hunderase</span>
 
-    <div
-      class="dropdown"
-      (click)="open()"
-      [ngClass]="{ focus: isOpen || modified }"
-    >
+    <div class="dropdown" (click)="open()" [ngClass]="{ focus: isOpen }">
       <div class="select" [ngClass]="{ selected: modified }">
         <div class="circle" *ngIf="modified"></div>
         {{ selected.temperament }}
@@ -15,10 +11,15 @@
     </div>
     <div class="options" *ngIf="isOpen">
       <div class="option" *ngFor="let breed of breeds" (click)="select(breed)">
-        <div class="circle"></div>
+        <div
+          class="circle"
+          [ngStyle]="{ backgroundColor: randomColor() }"
+        ></div>
         <div class="details">
           <span class="name">{{ breed.name }}</span>
-          <span class="temperament">{{ breed.temperament }}</span>
+          <span class="temperament">{{
+            breed.temperament || "Breed has no temperament"
+          }}</span>
         </div>
       </div>
     </div>
