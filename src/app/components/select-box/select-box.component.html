@@ -1,0 +1,26 @@
+<ng-container *ngIf="breeds.length">
+  <div class="group">
+    <span class="label">Hunderase</span>
+
+    <div
+      class="dropdown"
+      (click)="open()"
+      [ngClass]="{ focus: isOpen || modified }"
+    >
+      <div class="select" [ngClass]="{ selected: modified }">
+        <div class="circle" *ngIf="modified"></div>
+        {{ selected.temperament }}
+      </div>
+      <div class="icon"></div>
+    </div>
+    <div class="options" *ngIf="isOpen">
+      <div class="option" *ngFor="let breed of breeds" (click)="select(breed)">
+        <div class="circle"></div>
+        <div class="details">
+          <span class="name">{{ breed.name }}</span>
+          <span class="temperament">{{ breed.temperament }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
